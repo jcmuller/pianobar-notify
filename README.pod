@@ -23,6 +23,8 @@ Required modules:
 
 =item * L<Getopt::Long>
 
+=item * L<LWP::Simple>
+
 =item * L<Pod::Usage>
 
 =back

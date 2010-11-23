@@ -34,12 +34,13 @@ Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 use strict;
 use warnings;
-use Test::More tests => 4;
+use Test::More tests => 5;
 
 BEGIN {
 	use_ok('common::sense');
 	use_ok('Desktop::Notify');
 	use_ok('Getopt::Long');
+	use_ok('LWP::Simple');
 	use_ok('Pod::Usage');
 };
 
