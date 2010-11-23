@@ -277,14 +277,28 @@ sub _get_body
 {
 	my ($this, %args) = @_;
 
-	my $rat = $args{rating} ? 'Thumbs Up' : '';
-
-	return << "FINI";
+	my $body = << "FINI";
 $args{artist} - $args{title}
 $args{album}
 On: $args{station_name}
+FINI
+
+	my $rat;
+
+	given ($args{rating})
+	{
+		when (1) { $rat = 'Thumbs Up' }
+		when (2) { $rat = 'Thumbs Down' }
+	}
+
+	if ($rat)
+	{
+		$body .= << "FINI";
 <i>$rat</i>
 FINI
+	}
+
+	return $body;
 }
 # }}}
 # }}}
