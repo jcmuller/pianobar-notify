@@ -1,3 +1,0 @@
-#!/bin/bash
-
-echo -n 'n' > ~/.config/pianobar/ctl
