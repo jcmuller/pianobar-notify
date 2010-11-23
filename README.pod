@@ -1,6 +1,6 @@
 =head1 pianobar-notify
 
-This utility is called from L<pianobar|http://github.com/jcmuller/pianobar>.
+This utility is called from L<pianobar|http://github.com/PromyLOPh/pianobar>.
 When the status changes, a notification using the Desktop notification system
 is displayed. It has only been tested in Linux, using the Desktop notification
 system implemented by the L<Galago
@@ -55,5 +55,3 @@ I had to add a missing feature to L<Desktop::Notify::Notification>. The patch is
  				  [],
 
 which basically adds an accessor for C<app_icon> and sends C<app_icon> to the server.
-
-The F<pianobar> version that I'm using also includes the changes found at L<https://github.com/axelson/pianobar>.
