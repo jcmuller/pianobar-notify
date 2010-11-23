@@ -1,0 +1,59 @@
+=head1 pianobar-notify
+
+This utility is called from L<pianobar|http://github.com/jcmuller/pianobar>.
+When the status changes, a notification using the Desktop notification system
+is displayed. It has only been tested in Linux, using the Desktop notification
+system implemented by the L<Galago
+project|http://www.galago-project.org/specs/notification/>.
+
+My F<pianobar> config file (F<~/.config/pianobar/config>) includes 
+
+ event_command = pianobar-notify
+
+To install this app, for the time being, copy or soft-link F<src/pianobar-notify> to F<~/bin> or a
+directory in your path.
+
+Required modules:
+
+=over
+
+=item * L<Desktop::Notify>
+
+=item * L<common::sense>
+
+=item * L<Getopt::Long>
+
+=item * L<Pod::Usage>
+
+=back
+
+Run the requirement check script (which requires L<Test::More>) by running:
+
+ perl src/check-requirements.pl
+
+I had to add a missing feature to L<Desktop::Notify::Notification>. The patch is:
+
+ --- a/blib/lib/Desktop/Notify/Notification.pm	2009-12-24 20:09:23.000000000 -0500
+ +++ b/blib/lib/Desktop/Notify/Notification.pm	2010-11-17 17:51:45.000000000 -0500
+ @@ -5,7 +5,7 @@
+  
+  use base qw/Class::Accessor/;
+  
+ -Desktop::Notify::Notification->mk_accessors(qw/summary body timeout/);
+ +Desktop::Notify::Notification->mk_accessors(qw/summary body timeout app_icon/);
+  
+  =head1 NAME
+  
+ @@ -78,7 +78,7 @@
+ 	 $self->{id} = $self->{server}->{notify}
+ 		 ->Notify($self->{server}->{app_name},
+ 				  $self->{id} || 0,
+ -                 '',
+ +                 $self->{app_icon} || '',
+ 				  $self->{summary},
+ 				  $self->{body},
+ 				  [],
+
+which basically adds an accessor for C<app_icon> and sends C<app_icon> to the server.
+
+The F<pianobar> version that I'm using also includes the changes found at L<https://github.com/axelson/pianobar>.
