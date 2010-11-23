@@ -191,7 +191,7 @@ sub _get_status
 			$artist = $1 if (/artist=(.+)$/);
 			$title  = $1 if (/title=(.+)$/);
 			$album  = $1 if (/album=(.+)$/);
-			$cover  = $1 if (/artRadio=(.+)$/);
+			$cover  = $1 if (/coverArt=(.+)$/);
 			$rating = $1 if (/rating=(.+)$/);
 
 			$station_name  = $1 if (/stationName=(.+)$/);
