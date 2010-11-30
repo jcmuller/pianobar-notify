@@ -228,7 +228,13 @@ sub _get_album_cover
 	mkdir $BASE_PATH if (! -d $BASE_PATH);
 
 	# Construct filename based on the current artist and album playing
-	my $base_filename = "$BASE_PATH/${artist}_${album}";
+	my $base_filename;
+	{
+		my $cover_name = "${artist}_${album}";
+		# Clean up filename
+		$cover_name =~ s@[/\\*?!\$]@_@g;
+		$base_filename = "$BASE_PATH/$cover_name";
+	}
 
 	# Check for the existence of a file
 	for my $extension (@image_types)
