@@ -105,8 +105,6 @@ sub notify
 			status       => $status,
 			title        => $title,
 		);
-
-		$self->{notification}->close;
 	}
 }
 # }}}
