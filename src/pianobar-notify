@@ -119,7 +119,7 @@ sub _initialize
 	my $notify = Desktop::Notify->new;
 
 	# Create notification object
-	$self->{notification} = $notify->create(timeout  => 5000);
+	$self->{notification} = $notify->create(timeout  => 7500);
 }
 # }}}
 # {{{ _display
