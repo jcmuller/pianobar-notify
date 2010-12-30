@@ -192,6 +192,10 @@ sub _get_status
 			$cover  = $1 if (/coverArt=(.+)$/);
 			$rating = $1 if (/rating=(.+)$/);
 
+			$artist =~ s/&/_/;
+			$title  =~ s/&/_/;
+			$album  =~ s/&/_/;
+
 			$station_name  = $1 if (/stationName=(.+)$/);
 
 			given ($action)
@@ -230,7 +234,7 @@ sub _get_album_cover
 	{
 		my $cover_name = "${artist}_${album}";
 		# Clean up filename
-		$cover_name =~ s@[/\\*?!\$]@_@g;
+		$cover_name =~ s@[/\\*?!&\$]@_@g;
 		$base_filename = "$BASE_PATH/$cover_name";
 	}
 
