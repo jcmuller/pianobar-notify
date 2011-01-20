@@ -272,7 +272,7 @@ sub _get_album_cover
 	}
 
 	# Otherwise, use a default image
-	my $icon = "$BASE_PATH/default.png";
+	my $icon = "$BASE_PATH/default-130.png";
 	return $icon;
 }
 # }}}
