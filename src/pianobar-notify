@@ -184,6 +184,10 @@ sub _get_status
 
 	my $action = shift @ARGV;
 
+	my $stations = '/tmp/pianobar_stations';
+	my $sfh;
+	open($sfh, ">$stations") or die "Couldn't open $stations for writing: $!";
+
 	# Cache the status object
 	if ($action =~ /song(?:start|explain|love|ban)/)
 	{
@@ -196,6 +200,9 @@ sub _get_status
 			$rating = $1 if (/rating=(.+)$/);
 			$station_name  = $1 if (/stationName=(.+)$/);
 
+			# station1=Andrea Bocelli Radio
+			print $sfh "$1. $2\n" if (/station(\d+)=(.+)$/);
+
 			given ($action)
 			{
 				when (/start|explain/) { $status = 'Playing' }
@@ -204,6 +211,8 @@ sub _get_status
 			}
 		}
 	}
+
+	close($sfh);
 
 	return
 		$album,
