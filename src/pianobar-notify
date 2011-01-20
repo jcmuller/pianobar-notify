@@ -316,7 +316,7 @@ sub _get_album_cover
 # to change slightly. Not a lot.
 sub _get_body
 {
-	my ($this, %args) = @_;
+	my ($self, %args) = @_;
 
 	my $body = << "FINI";
 $args{artist} - $args{title}
