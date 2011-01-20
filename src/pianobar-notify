@@ -140,8 +140,33 @@ sub _display
 	$self->{notification}->app_icon($icon);
 	$self->{notification}->body($body);
 
+	$self->_show_in_awesome(\%body_args, $icon, $body) if ($body_args{action} =~ /song(?:start|explain|love|ban)/);
+
 	# Display the notification
 	$self->{notification}->show;
+}
+# }}}
+# {{{ _show_in_awesome
+sub _show_in_awesome
+{
+	my ($self, $body_args, $icon, $body) = @_;
+
+	my $str = sprintf " %s - %s", $body_args->{artist}, $body_args->{title};
+	my $b = $body;
+
+	$b =~ s/\n/\\n/g;
+
+	given ($body_args->{rating})
+	{
+		when (1) { $str .= ' <3'  }
+		when (2) { $str .= ' </3' }
+	}
+
+	$self->_clean_up(\$str);
+
+	open (my $ac, "| /usr/local/bin/awesome-client");
+	printf $ac "musicwidget.text = '%s'\nmusiccover.path = '%s'\nmusiccover.body = '%s'\n", $str, $icon, $b;
+	close $ac;
 }
 # }}}
 # {{{ _collect_arguments
