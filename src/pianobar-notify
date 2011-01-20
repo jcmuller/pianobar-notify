@@ -63,6 +63,7 @@ use Desktop::Notify;
 use Getopt::Long;
 use LWP::Simple qw(get);
 use Pod::Usage;
+use HTML::Entities qw();
 use feature 'switch';
 # }}}
 # {{{ new
@@ -191,11 +192,6 @@ sub _get_status
 			$album  = $1 if (/album=(.+)$/);
 			$cover  = $1 if (/coverArt=(.+)$/);
 			$rating = $1 if (/rating=(.+)$/);
-
-			$artist =~ s/&/_/;
-			$title  =~ s/&/_/;
-			$album  =~ s/&/_/;
-
 			$station_name  = $1 if (/stationName=(.+)$/);
 
 			given ($action)
@@ -234,7 +230,7 @@ sub _get_album_cover
 	{
 		my $cover_name = "${artist}_${album}";
 		# Clean up filename
-		$cover_name =~ s@[/\\*?!&\$]@_@g;
+		$cover_name =~ s@[/\\*?!&\$']@_@g;
 		$base_filename = "$BASE_PATH/$cover_name";
 	}
 
@@ -306,7 +302,20 @@ FINI
 FINI
 	}
 
+	$self->_clean_up(\$body);
+
 	return $body;
+}
+# }}}
+# {{{ _clean_up
+# Get rid of characters that break html.
+sub _clean_up
+{
+	my ($self, $str) = @_;
+
+	$$str = HTML::Entities::encode($$str);
+	# Reenable HTML tags.
+	$$str =~ s@&lt;(.+?)&gt;@<$1>@g;
 }
 # }}}
 # }}}
