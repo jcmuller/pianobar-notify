@@ -230,7 +230,7 @@ sub _get_status
 
 			given ($action)
 			{
-				when (/start|explain/) { $status = 'Playing' }
+				when (/start|explain/) { $status = 'Playing'; }
 				when (/love/)          { $status = 'Thumbs Up' }
 				when (/ban/)           { $status = 'Thumbs Down' }
 			}
