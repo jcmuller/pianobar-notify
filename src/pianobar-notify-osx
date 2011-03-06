@@ -11,7 +11,7 @@ use common::sense;
 =head1 DESCRIPTION
 
 Get the data from L<pianobar|http://github.com/jcmuller/pianobar> and display a
-notification window using Desktop::Notify.
+notification window using L<Growl|http://growl.info>.
 
 =head1 VERSION
 
@@ -34,7 +34,7 @@ Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 =head1 USAGE
 
-pianobar-notify [options]
+pianobar-notify-osx [options]
 
     -m, --man       Show man page
     -h, --help      Show this text
