@@ -203,14 +203,18 @@ sub _get_status
 	}
 
 	my $stations_file = '/tmp/pianobar_stations';
-	if (my $sfh = FileHandle->new(">$stations_file"))
+	my $alt_stations_file = "${stations_file}_TMP";
+	if (my $sfh = FileHandle->new(">$alt_stations_file"))
 	{
 		print $sfh->print(join "\n", @stations);
-		$sfh->close;
+		if ($sfh->close)
+		{
+			rename $alt_stations_file, $stations_file;
+		}
 	}
 	else
 	{
-		die "Couldn't open $stations_file for writing: $!";
+		die "Couldn't open $alt_stations_file for writing: $!";
 	}
 
 	return
