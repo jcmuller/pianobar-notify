@@ -1,4 +1,4 @@
-#!/usr/bin/perl 
+#!/usr/bin/perl
 
 # {{{ POD
 
@@ -42,6 +42,7 @@ BEGIN {
 	use_ok('Getopt::Long');
 	use_ok('LWP::Simple');
 	use_ok('Pod::Usage');
+	use_ok('JSON');
 };
 
 
