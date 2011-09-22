@@ -192,7 +192,12 @@ sub _get_status
 			$station_name  = $1 if (/stationName=(.+)$/);
 
 			# station1=Andrea Bocelli Radio
-			push @stations, "$1. $2" if (/station(\d+)=(.+)$/);
+			if (/station(\d+)=(.+)$/)
+			{
+				my $name = $2;
+				$name .= " [playing]" if $station_name eq $2;
+				push @stations, "$1. $name";
+			}
 
 			given ($action)
 			{
@@ -206,7 +211,7 @@ sub _get_status
 	my $stations_file = '/tmp/pianobar_stations';
 	if (my $sfh = FileHandle->new(">$stations_file"))
 	{
-		print $sfh->print(join "\n", @stations);
+		$sfh->print(join "\n", @stations);
 		$sfh->close;
 	}
 	else
@@ -232,10 +237,11 @@ sub _get_status
 				title => $title,
 				rating => $rating,
 				love => $love,
-				current_song_string => sprintf("%s - %s (%s)%s", $artist, $title, $album, $love)
+				current_song_string => sprintf("%s - %s (%s)%s", $artist, $title, $album, $love),
+				station_name => $station_name
 			}
 		);
-		print $sfh->print($jsonString);
+		$sfh->print($jsonString);
 		$sfh->close;
 	}
 	else
