@@ -57,3 +57,5 @@ I had to add a missing feature to L<Desktop::Notify::Notification>. The patch is
  				  [],
 
 which basically adds an accessor for C<app_icon> and sends C<app_icon> to the server.
+
+If you're not using my Awesome rc.lua, you should probably comment out line 144. Otherwise, you'll get a LUA error about an "attempt to index global 'musicwidget'..."
