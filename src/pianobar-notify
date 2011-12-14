@@ -65,7 +65,7 @@ use LWP::Simple qw(get);
 use Pod::Usage;
 use HTML::Entities qw();
 use feature 'switch';
-use Filehandle;
+use FileHandle;
 # }}}
 # {{{ new
 # Common constructor
