@@ -58,4 +58,6 @@ I had to add a missing feature to L<Desktop::Notify::Notification>. The patch is
 
 which basically adds an accessor for C<app_icon> and sends C<app_icon> to the server.
 
-I have a call to C<_show_in_awesome>. If you are not using L<Awesome|http://awesome.naquadah.org/>, or don't have C<musiccover> defined in your F<rc.lua> (F<~/.config/awesome/rc.lua>), comment out the line in C<_display> that calls it (currently 144, but it will change). 
+I have a call to C<_show_in_awesome>. If you are not using L<Awesome|http://awesome.naquadah.org/>,
+or don't have C<musiccover> defined in your F<rc.lua> (F<$HOME/.config/awesome/rc.lua>), comment out
+the line in C<_display> that calls it (currently 144, but it will change). 
