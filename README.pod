@@ -29,9 +29,26 @@ Required modules:
 
 =back
 
-Run the requirement check script (which requires L<Test::More>) by running:
+Run the requirement check script (which requires L<Test::More>) for your specific operating system:
+
+=over
+
+=item * Linux:
 
  perl src/check-requirements.pl
+
+=item * Mac OS X:
+
+ perl src/check-requirements-osx.pl
+
+=back
+
+If you're running Mac OS X, you may need to install the required modules via macports and CPAN:
+
+ port install p5-common-sense
+ port install p5-json
+ port install p5-xml-entities
+ cpan i /GNTP/
 
 I had to add a missing feature to L<Desktop::Notify::Notification>. The patch is:
 
