@@ -66,6 +66,8 @@ use Growl::GNTP;
 use HTML::Entities qw();
 use JSON;
 use Pod::Usage;
+use Data::Dumper;
+use LWP::Simple qw(get);
 # }}}
 # {{{ new
 # Common constructor
@@ -135,13 +137,14 @@ sub _display
 
 	# Construct notification body text
 	my $body = $self->_get_body(%body_args);
+	my $icon = $self->_get_album_cover($body_args{artist}, $body_args{album}, $body_args{cover});
 
 	# Display the notification
 	$self->{_notification}->notify(
 		Event   => 'songInfo',
 		Title   => $summary,
 		Message => $body,
-		Icon    => $body_args{cover},
+		Icon    => $icon,
 	);
 }
 # {{{ _collect_arguments
@@ -302,6 +305,65 @@ FINI
 	return $body;
 }
 # }}}
+# {{{ _get_album_cover
+sub _get_album_cover
+{
+	my ($self, $artist, $album, $cover) = @_;
+
+	my $BASE_PATH = Defaults->base_path;
+
+	my @image_types = qw(png jpg gif tif bmp);
+
+	# Create convers directory if it doesn't exist.
+	mkdir $BASE_PATH if (! -d $BASE_PATH);
+
+	# Construct filename based on the current artist and album playing
+	my $base_filename;
+	{
+		my $cover_name = "${artist}_${album}";
+		# Clean up filename
+		$cover_name =~ s@[/\\*?!&\$']@_@g;
+		$base_filename = "$BASE_PATH/$cover_name";
+	}
+
+	# Check for the existence of a file
+	for my $extension (@image_types)
+	{
+		my $filename = "${base_filename}.${extension}";
+
+		if ( -e $filename and ! -z $filename)
+		{
+			return $filename;
+		}
+	}
+
+	if ($cover)
+	{
+		my $icon = get($cover);
+
+		my $filename = $base_filename;
+
+		if ($cover =~ /.*(\.\w{3})$/)
+		{
+			$filename .= "$1";
+		}
+
+		if ($icon)
+		{
+			if (my $fh = FileHandle->new("> $filename" ))
+			{
+				$fh->print($icon);
+				$fh->close;
+
+				return $filename;
+			}
+		}
+	}
+
+	# Otherwise, use a default image
+	my $icon = "$BASE_PATH/default-130.png";
+	return $icon;
+}
 # {{{ _clean_up
 # Get rid of characters that break html.
 sub _clean_up
@@ -311,6 +373,7 @@ sub _clean_up
 	#$$str = HTML::Entities::encode($$str);
 	# Reenable HTML tags.
 	#$$str =~ s@&lt;(.+?)&gt;@<$1>@g;
+	$$str =~ s@'@_@g;
 }
 # }}}
 # }}}
